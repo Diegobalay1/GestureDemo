@@ -42,7 +42,29 @@ fun MainScreen() {
     //ClickDemo()
     //TapPressDemo()
     //DragDemo()
-    PointerInputDrag()
+    //PointerInputDrag()
+    ScrollableModifier()
+}
+
+@Composable
+fun ScrollableModifier() {
+    var offset by remember { mutableStateOf(0f) }
+
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .scrollable(
+            orientation = Orientation.Vertical,
+            state = rememberScrollableState { distance ->
+                offset += distance
+                distance
+            }
+        )
+    ) {
+        Box(modifier = Modifier
+            .size(90.dp)
+            .offset { IntOffset(x = 0, y = offset.roundToInt()) }
+            .background(Color.Red))
+    }
 }
 
 @Composable
