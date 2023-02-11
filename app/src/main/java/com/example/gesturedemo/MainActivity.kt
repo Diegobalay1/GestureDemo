@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,7 +47,30 @@ fun MainScreen() {
     //DragDemo()
     //PointerInputDrag()
     //ScrollableModifier()
-    ScrollModifiers()
+    //ScrollModifiers()
+    MultiTouchDemo()
+}
+
+@Composable
+fun MultiTouchDemo() {
+    var scale by remember { mutableStateOf(1f) }
+
+    val state = rememberTransformableState {
+                    scaleChange, offsetChange, rotationChange ->
+        scale *= scaleChange
+    }
+
+    Box(contentAlignment = Alignment.Center ,modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier
+            .graphicsLayer(
+                scaleX = scale,
+                scaleY = scale,
+            )
+            .transformable(state = state)
+            .background(Color.Blue)
+            .size(100.dp)
+        )
+    }
 }
 
 @Composable
